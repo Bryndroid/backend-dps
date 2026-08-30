@@ -1,0 +1,21 @@
+import express, { type Request, type Response } from "express";
+import { AiHarness } from "./ai.harness.js";
+import { GeminiProvider } from "./gemini.provider.js";
+
+const aiRoutes = express.Router();
+const harness = new AiHarness(new GeminiProvider());
+
+aiRoutes.post("/example", async (req: Request, res: Response) => {
+    const result = await harness.run({
+        input: req.body?.input,
+        conversationId: req.body?.conversationId,
+        systemInstruction: "Responde en español de forma breve y clara.",
+    });
+
+    res.status(200).json({
+        success: true,
+        data: result,
+    });
+});
+
+export default aiRoutes;

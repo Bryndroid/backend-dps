@@ -1,0 +1,9 @@
+allowBuilds:
+  '@google/genai': false
+  '@prisma/engines': false
+  bcrypt: false
+  esbuild: false
+  msgpackr-extract: false
+  prisma: false
+  protobufjs: false
+  workerd: false

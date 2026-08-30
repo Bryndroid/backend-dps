@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+//Esto sirve para que puedas transformar todo esto a JS/ TS
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model RecompensasCatalogo {
+  id               Int                 @id @default(autoincrement())
+  nombre           String?             @db.VarChar(100)
+  nombreApodo      String?             @map("nombre_apodo") @db.VarChar(100)
+  tipo             String?             @db.VarChar(50)
+  valorObtenible   Int                @map("valor_obtenible")
+  descripcion      String?             @db.VarChar(200)
+  recompensaUsuario RecompensaUsuario[]
+
+  @@map("recompensas_catalogo")
+}
+
+model RecompensaUsuario {
+  id               Int                 @id @default(autoincrement())
+  usuarioId        Int                @map("usuario_id")
+  recompensaId     Int                @map("recompensa_id")
+  fuente           String?             @db.VarChar(125)
+  fechaObtencion   DateTime?           @map("fecha_obtencion") @db.DateTime(0)
+  usuario          Usuarios?           @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "recompensa_usuario_ibfk_1")
+  recompensa       RecompensasCatalogo? @relation(fields: [recompensaId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "recompensa_usuario_ibfk_2")
+
+  @@index([recompensaId], map: "recompensa_id")
+  @@index([usuarioId], map: "usuario_id")
+  @@map("recompensa_usuario")
+}
+
+model Usuarios {
+  id                   Int                 @id @default(autoincrement())
+  nombre               String             @db.VarChar(255)
+  email                String             @db.VarChar(100) @unique
+  passwordHash         String            @map("password_hash") @db.VarChar(250)
+  xpTotales            Int                @map("xp_totales")
+  fechaRegistro        DateTime           @map("fecha_registro") @db.DateTime(0)
+  energiaBalance       Int?                @map("energia_balance")
+  estrellasBalance     Int?                @map("estrellas_balance")
+  aiPistaBalance       Int?                @map("AI_pista_balance")
+  protectorRachaBalance Int?               @map("protector_racha_balance")
+  recompensaUsuario    RecompensaUsuario[]
+  usuarioCurso         UsuarioCurso[]//Esto es por que lo necesita prisma
+  historialRacha       HistorialRacha[]
+  usuarioContexto      UsuarioContexto[]
+
+  @@map("usuarios")
+}
+
+model Cursos {
+  id                  Int             @id @default(autoincrement())
+  titulo              String         @db.VarChar(150)
+  lenguajeProgramacion String        @map("lenguaje_programacion") @db.VarChar(150)
+  firebaseRef         Int            @map("firebase_ref") @db.TinyInt
+  usuarioCurso        UsuarioCurso[]
+
+  @@map("cursos")
+}
+
+model UsuarioCurso {
+  id                 Int       @id @default(autoincrement())
+  usuarioId          Int      @map("usuario_id")
+  cursoId            Int      @map("curso_id")
+  fechaInscripcion   DateTime @map("fecha_inscripcion") @db.DateTime(0)
+  conteoErrores      Int     @map("conteo_errores")
+  tipoErrores        String   @map("tipo_errores") @db.VarChar(500)
+  progresoPorcentaje Decimal?  @map("progreso_porcentaje") @db.Decimal(3, 3)
+  estado             String?   @db.VarChar(100)
+  usuario            Usuarios? @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "usuario_curso_ibfk_1")
+  curso              Cursos?   @relation(fields: [cursoId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "usuario_curso_ibfk_2")
+
+  @@index([cursoId], map: "curso_id")
+  @@index([usuarioId], map: "usuario_id")
+  @@map("usuario_curso")
+}
+
+model HistorialRacha {
+  id          Int       @id @default(autoincrement())
+  usuarioId   Int?      @map("usuario_id")
+  fecha       DateTime? @db.DateTime(0)
+  rachaValor  Int?      @map("racha_valor")
+  usuario     Usuarios? @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "historial_racha_ibfk_1")
+
+  @@index([usuarioId], map: "usuario_id")
+  @@map("historial_racha")
+}
+
+model UsuarioContexto {
+  id                   Int       @id @default(autoincrement())
+  usuarioId            Int      @map("usuario_id")
+  porcentajeRefuerzo   Decimal  @map("porcentaje_refuerzo") @db.Decimal(3, 3)
+  conceptosDebiles     String   @map("conceptos_debiles") @db.VarChar(250)
+  ultimoConsejoTopic   String?   @map("ultimo_consejo_topic") @db.VarChar(250)
+  resumenSemanaActual  String?   @map("resumen_semana_actual") @db.VarChar(500)
+  usuario              Usuarios? @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "usuario_contexto_ibfk_1")
+
+  @@index([usuarioId], map: "usuario_id")
+  @@map("usuario_contexto")
+}
