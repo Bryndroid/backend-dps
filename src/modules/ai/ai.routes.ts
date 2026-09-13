@@ -1,3 +1,5 @@
+// ESTE ES UN MODULO EN DESARROLLO Y CASI TODO ESTA SUJETO A CAMBIOS DRASTICOS.
+
 import express, { type Request, type Response } from "express";
 import { AiHarness } from "./ai.harness.js";
 import { GeminiProvider } from "./gemini.provider.js";

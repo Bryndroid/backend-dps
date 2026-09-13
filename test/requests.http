@@ -6,7 +6,7 @@ POST http://127.0.0.1:3000/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "bryanfuentes.54@gmail.com",
+  "email": "bryanfuentesm.54@gmail.com",
   "password": "123456"
 }
 
@@ -15,10 +15,37 @@ POST http://127.0.0.1:3000/registro HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "bryanfuentes.54@gmail.com",
+  "email": "bryanfuentesm.54@gmail.com",
   "name": "bryan",
   "password": "123456"
 }
 ###
 POST http://127.0.0.1:3000/exam/quiz HTTP/1.1
 Content-Type: application/json
+
+//PARA PRUEBAS DE JWT
+
+### 
+POST http://127.0.0.1:3000/23232/exam HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJicnlhbiIsImVtYWlsIjoiYnJ5YW5mdWVudGVzbS41NEBnbWFpbC5jb20iLCJpYXQiOjE3ODkwNjA3MjQsImV4cCI6MTc4OTA2MTYyNH0.cxbreI-skW9L1trIaNBcWFN8KlsbAf8Qcj1lws4_mes
+x-refresh-token: 9480c7026d85d770e955cf4f19fd880ea7fc2463bc012690164aa03a8e1043ed
+
+{
+  
+}
+
+//PRUEBA DE RENOVACION CON EL REFRESH TOKEN
+### 
+POST http://127.0.0.1:3000/renueve_token HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJicnlhbiIsImVtYWlsIjoiYnJ5YW5mdWVudGVzbS41NEBnbWFpbC5jb20iLCJpYXQiOjE3ODkwNjA3MjQsImV4cCI6MTc4OTA2MTYyNH0.cxbreI-skW9L1trIaNBcWFN8KlsbAf8Qcj1lws4_mes
+x-refresh-token: 727b481d639ef554f36f2b00d8721c842b3f4555ede78d61a24867ae4bd01ae5
+Content-Type: application/json
+
+{
+  "nombre": "bryan",
+  "email": "bryanfuentesm.54@gmail.com"
+}
+###
+GET http://127.0.0.1:3000/strike?id=2&date=2026-10-16T06:00:00.000Z HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJicnlhbiIsImVtYWlsIjoiYnJ5YW5mdWVudGVzbS41NEBnbWFpbC5jb20iLCJpYXQiOjE3ODkzMTQ3NzcsImV4cCI6MTc4OTMxNTY3N30.Qhio3T9NHWo3IOiqEgb54lLqesYPVpgw7Arnv_utC1E

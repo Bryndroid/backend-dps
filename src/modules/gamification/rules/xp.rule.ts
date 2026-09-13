@@ -1,0 +1,1 @@
+// Reglas para definir como obtener la XP

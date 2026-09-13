@@ -1,3 +1,6 @@
+// ESTE ES UN MODULO EN DESARROLLO Y CASI TODO ESTA SUJETO A CAMBIOS DRASTICOS.
+// Practicamente solamente lo ocupe para realizar pruebas. MUCHAS PROBABILIDADES DE ELIMINAR ESTE MODULO POR COMPLETO. YA QUE SE MANEJA EN FIREBASE TODO ESTO. PERO PUEDE QUE NO XD.
+
 import { ApiResponse } from "../../shared/interfaces/ApiResponse.js";
 import { Request, Response } from "express";
 import { CourseService } from "./course.service.js";
@@ -27,6 +30,9 @@ export class CourseController {
 
     async handlerExam(req: Request, res: Response){
         const result = await CourseService.calificarExamen();
+        res.send({
+            data: "bien"
+        })
     }
     private handlerEvent() {
         console.log("hsfgsakdfjka")

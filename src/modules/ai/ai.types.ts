@@ -1,3 +1,5 @@
+// ESTE ES UN MODULO EN DESARROLLO Y CASI TODO ESTA SUJETO A CAMBIOS DRASTICOS.
+
 export interface HarnessRequest {
     input: string;
     conversationId?: string;

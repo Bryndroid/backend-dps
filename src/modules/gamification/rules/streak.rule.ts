@@ -1,0 +1,1 @@
+// Reglas para conservar las rachas, repararlas etc. Como lo implemento?

@@ -2,6 +2,7 @@ import { Usuarios } from "@prisma/client";
 import { ApiResponse } from "../../shared/interfaces/ApiResponse.js";
 import { UserService } from "./user.service.js";
 import { Request, Response } from "express";
+import { HttpStatusCode } from "../../shared/constants/HttpStatus.js";
 
 export class UserController{
 
@@ -17,4 +18,7 @@ export class UserController{
         }
         res.json(respuesta);
     }
+
+
+    
 }

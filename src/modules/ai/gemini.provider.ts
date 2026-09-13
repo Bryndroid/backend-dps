@@ -1,3 +1,5 @@
+// ESTE ES UN MODULO EN DESARROLLO Y CASI TODO ESTA SUJETO A CAMBIOS DRASTICOS.
+
 import { GoogleGenAI } from "@google/genai";
 import type { AiProvider } from "./ai.types.js";
 //Esto si me gusta mucho

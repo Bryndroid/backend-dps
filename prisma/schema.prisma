@@ -1,7 +1,7 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// Get a free hosted Postgres database in seconds: `npx create-db`   
 //Esto sirve para que puedas transformar todo esto a JS/ TS
 generator client {
   provider = "prisma-client-js"
@@ -37,6 +37,20 @@ model RecompensaUsuario {
   @@map("recompensa_usuario")
 }
 
+model RefreshToken {
+  id              Int       @id @default(autoincrement())
+  tokenHash       String    @map("token_hash") @db.VarChar(255)
+  previousToken   String?   @map("previous_token") @db.VarChar(255) // Sensor de robos
+  expiresAt       DateTime  @map("expires_at") @db.DateTime(0)      // Límite de 7 días
+  createdAt       DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.DateTime(0) // Reemplaza a renueveAt
+  
+  usuarioId       Int       @map("usuario_id") 
+  usuario         Usuarios  @relation(fields: [usuarioId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "refresh_token_ibfk_1")
+
+  @@map("refresh_token")
+}
+
 model Usuarios {
   id                   Int                 @id @default(autoincrement())
   nombre               String             @db.VarChar(255)
@@ -52,6 +66,7 @@ model Usuarios {
   usuarioCurso         UsuarioCurso[]//Esto es por que lo necesita prisma
   historialRacha       HistorialRacha[]
   usuarioContexto      UsuarioContexto[]
+  refreshToken         RefreshToken[]
 
   @@map("usuarios")
 }
@@ -88,9 +103,11 @@ model HistorialRacha {
   usuarioId   Int?      @map("usuario_id")
   fecha       DateTime? @db.DateTime(0)
   rachaValor  Int?      @map("racha_valor")
+  activa      Boolean   @default(true)
   usuario     Usuarios? @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "historial_racha_ibfk_1")
 
   @@index([usuarioId], map: "usuario_id")
+  @@index([usuarioId, activa])
   @@map("historial_racha")
 }
 
