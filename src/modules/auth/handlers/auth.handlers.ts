@@ -3,7 +3,7 @@ import { AuthTokens } from "../../../shared/interfaces/AuthTokens.js";
 import { EventPayload } from "../../../shared/interfaces/Context.js";
 import bcrypt from "bcrypt";
 
-
+// DEPRECATED
 //Handler para guardar Refresh Token
 export async function store_token(data: EventPayload<{ auth: AuthTokens, userId: number }>) {
     try {

@@ -6,7 +6,7 @@ POST http://127.0.0.1:3000/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "bryanfuentesm.54@gmail.com",
+  "email": "a@gmail.com",
   "password": "123456"
 }
 
@@ -15,8 +15,8 @@ POST http://127.0.0.1:3000/registro HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "bryanfuentesm.54@gmail.com",
-  "name": "bryan",
+  "email": "a@gmail.com",
+  "name": "lucas",
   "password": "123456"
 }
 ###
@@ -28,8 +28,8 @@ Content-Type: application/json
 ### 
 POST http://127.0.0.1:3000/23232/exam HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJicnlhbiIsImVtYWlsIjoiYnJ5YW5mdWVudGVzbS41NEBnbWFpbC5jb20iLCJpYXQiOjE3ODkwNjA3MjQsImV4cCI6MTc4OTA2MTYyNH0.cxbreI-skW9L1trIaNBcWFN8KlsbAf8Qcj1lws4_mes
-x-refresh-token: 9480c7026d85d770e955cf4f19fd880ea7fc2463bc012690164aa03a8e1043ed
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJsdWNhcyIsImVtYWlsIjoiYUBnbWFpbC5jb20iLCJpYXQiOjE3ODk0ODQyNTAsImV4cCI6MTc4OTQ4NTE1MH0.ZkKDa5HvVVJU1uwL5YUDUTdEUBX1voCLGO8zWxmzyMk
+x-refresh-token: 1f06ff44c048aa395d863c54ce28e64ebf0f84ae739555cfe45004d7cd4d597f
 
 {
   
@@ -38,14 +38,19 @@ x-refresh-token: 9480c7026d85d770e955cf4f19fd880ea7fc2463bc012690164aa03a8e1043e
 //PRUEBA DE RENOVACION CON EL REFRESH TOKEN
 ### 
 POST http://127.0.0.1:3000/renueve_token HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJicnlhbiIsImVtYWlsIjoiYnJ5YW5mdWVudGVzbS41NEBnbWFpbC5jb20iLCJpYXQiOjE3ODkwNjA3MjQsImV4cCI6MTc4OTA2MTYyNH0.cxbreI-skW9L1trIaNBcWFN8KlsbAf8Qcj1lws4_mes
-x-refresh-token: 727b481d639ef554f36f2b00d8721c842b3f4555ede78d61a24867ae4bd01ae5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJsdWNhcyIsImVtYWlsIjoiYUBnbWFpbC5jb20iLCJpYXQiOjE3ODk0ODQzMTQsImV4cCI6MTc4OTQ4NTIxNH0.v5AfGRE7Ap2-IOIgaWF0boO9l3rx0xmL1kxohNqt80U"
+x-refresh-token: 875c65d79d92b4bea0af79a3a75b3d2b6fbb81a3065b65d2536f168a211da3a8
 Content-Type: application/json
 
 {
-  "nombre": "bryan",
-  "email": "bryanfuentesm.54@gmail.com"
+  "nombre": "lucas",
+  "email": "a@gmail.com"
 }
 ###
-GET http://127.0.0.1:3000/strike?id=2&date=2026-10-16T06:00:00.000Z HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJicnlhbiIsImVtYWlsIjoiYnJ5YW5mdWVudGVzbS41NEBnbWFpbC5jb20iLCJpYXQiOjE3ODkzMTQ3NzcsImV4cCI6MTc4OTMxNTY3N30.Qhio3T9NHWo3IOiqEgb54lLqesYPVpgw7Arnv_utC1E
+GET http://127.0.0.1:3000/strike?id=4&date=2026-09-29T06:00:00.000Z HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Imx1Y2FzIiwidXNlckVtYWlsIjoiYUBnbWFpbC5jb20iLCJpYXQiOjE3ODk0ODQ0NjMsImV4cCI6MTc4OTQ4NTM2M30.R0IW6IrP3tUBW2kOa26uaTfA3dq-FuVC4SK3Xn3ZmJo
+
+###
+GET http://127.0.0.1:3000/logout?id=3 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJsdWNhcyIsImVtYWlsIjoiYUBnbWFpbC5jb20iLCJpYXQiOjE3ODkzOTg0MzQsImV4cCI6MTc4OTM5OTMzNH0.spn3M1mYuRdgcIO4sSWe-h8mLA2vv8CONxxk5VOpPgs
+x-refresh-token: 1fa2af4f861cbb0c9907dc24ff1d573fe2b0826bd77ec185b0ded4edf8490eb3

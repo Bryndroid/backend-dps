@@ -137,7 +137,7 @@ export class GameService {
     static async resetStrike(strikeId: number, userId: number, date: Date): Promise<void> {
 
         await prisma.$transaction(async (tx) => {
-            // La racha anterior pasa al historial.
+            //La racha anterior pasa al historial.
             await tx.historialRacha.update({
                 where: {
                     id: strikeId,
@@ -147,7 +147,7 @@ export class GameService {
                 },
             });
 
-            // Nueva racha activa.
+            //Nueva racha activa.
             await tx.historialRacha.create({
                 data: {
                     usuarioId: userId,

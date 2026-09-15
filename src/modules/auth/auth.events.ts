@@ -13,7 +13,7 @@ export enum AuthEvents {
 
 
 //Mis publicadores
-export function publishUserLogin(payload: {auth:AuthTokens, userId:number}){
+/* export function publishUserLogin(payload: {auth:AuthTokens, userId:number}){
     const eventPayload: EventPayload<{auth:AuthTokens, userId:number}> ={
         idEvent: AuthEvents.USER_LOGIN_SUCCESFULL,
         producer: "auth",
@@ -31,7 +31,7 @@ export function publishUserRenueve(payload: {refreshToken: string, oldToken: str
     }
 
     eventBus.publish(AuthEvents.USER_RENUEVE_TOKEN, eventPayload);
-}
+} */
 
 
 

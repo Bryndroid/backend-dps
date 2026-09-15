@@ -5,7 +5,7 @@ import { Usuarios } from "@prisma/client";
 import { AuthService } from "./auth.service.js";
 import { HttpStatusCode } from "../../shared/constants/HttpStatus.js";
 import { AuthTokens } from "../../shared/interfaces/AuthTokens.js";
-import { publishUserLogin, publishUserRenueve } from "./auth.events.js";
+
 
 export class AuthController {
 
@@ -36,9 +36,8 @@ export class AuthController {
             response.jwt = token.jwt;
             response.refresh_token = token.refresh_token;
             response.error = false;
-            res.json(response);
+            return res.json(response);
             
-            publishUserLogin({auth: token, userId: cleanUser.id});
         } catch (error) {
             response.error = true; 
             response.status = HttpStatusCode.BAD_REQUEST;
@@ -83,7 +82,7 @@ export class AuthController {
 
     static async logout(req: Request, res: Response) {
 
-        const response: ApiResponse<{ jwt: string, refresh_token: string, lifetime: string } | null> = {
+        const response: ApiResponse<string | null> = {
             status: HttpStatusCode.SERVICE_UNAVAILABLE,
             message: "eRROr",
             payload: null,
@@ -91,9 +90,26 @@ export class AuthController {
         }
 
         const requestJWT = req.headers["authorization"];
-        const refreshToken = req.headers["x-refresh-token"];
-        if(!refreshToken || !requestJWT){
-            
+        const refreshToken = req.headers["x-refresh-token"] as string;
+        const {id} = req.query;
+        if(!refreshToken || !requestJWT || !id){
+            response.status = HttpStatusCode.BAD_REQUEST;
+            response.message = "Datos invalidos";
+            return res.json(response);
+        }
+
+        try{
+            await AuthService.logout(refreshToken, parseInt(id as string));
+
+            response.status = HttpStatusCode.ACCEPTED;
+            response.payload = "Deslogeado con éxito";
+            response.error = false;
+
+            return res.json(response);
+        }catch(error){
+            response.status = HttpStatusCode.NOT_IMPLEMENTED;
+            response.message = String(error);
+            return res.json(response);
         }
 
     }
@@ -108,7 +124,7 @@ export class AuthController {
         }
 
         const refreshToken = req.headers["x-refresh-token"] as string;
-        console.log("ljnsdfghjlksdgfalkjgsfalkjsdfgjkl");
+
         const {nombre, email} = req.body;
 
         if(!nombre || !email){
@@ -123,8 +139,7 @@ export class AuthController {
             response.message ='Actualizacion completa'
             response.jwt = newJWT,
             response.refresh_token = newRefreshToken;
-            res.send(response);
-            publishUserRenueve({refreshToken: newRefreshToken, oldToken: refreshToken, refreshId: refreshId})
+            return res.send(response);
         }catch(error){
             response.message = String(error);
             response.status = HttpStatusCode.CONFLICT;

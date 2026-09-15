@@ -5,7 +5,7 @@ import type {
     AiProvider,
     HarnessRequest,
     HarnessResponse,
-} from "./ai.types.js";
+} from "./../ai.types.js";
 
 interface ConversationState {
     previousInteractionId?: string;
