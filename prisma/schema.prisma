@@ -116,9 +116,9 @@ model UsuarioContexto {
   usuarioId            Int      @map("usuario_id")
   porcentajeRefuerzo   Decimal  @map("porcentaje_refuerzo") @db.Decimal(3, 3)
   conceptosDebiles     String   @map("conceptos_debiles") @db.VarChar(250)
-  ultimoQuizGenerado   String   @map("ultimo_quiz_generado") @db.VarChar(500) //Para guardar prompts
-  ultimoConsejoTopic   String?   @map("ultimo_consejo_topic") @db.VarChar(250) //Para guardar prompts
-  resumenSemanaActual  String?   @map("resumen_semana_actual") @db.VarChar(500) //Para guardar prompts
+  ultimoQuizGenerado   String   @map("ultimo_quiz_generado") @db.MediumText //Para guardar prompts
+  ultimoConsejoTopic   String?   @map("ultimo_consejo_topic") @db.MediumText //Para guardar prompts
+  resumenSemanaActual  String?   @map("resumen_semana_actual") @db.MediumText  //Para guardar prompts
   usuario              Usuarios? @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "usuario_contexto_ibfk_1")
 
   @@index([usuarioId], map: "usuario_id")

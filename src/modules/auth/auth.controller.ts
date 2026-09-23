@@ -22,7 +22,7 @@ export class AuthController {
         if (!email || !password) {
             response.status = HttpStatusCode.BAD_REQUEST;
             response.message = "Envie datos validos";
-            return res.json(response);
+            return res.status(response.status).json(response);
         }
         //Verificación de proceso mediante errors de AuthService.
         try {
@@ -36,13 +36,13 @@ export class AuthController {
             response.jwt = token.jwt;
             response.refresh_token = token.refresh_token;
             response.error = false;
-            return res.json(response);
+            return res.status(response.status).json(response);
             
         } catch (error) {
             response.error = true; 
             response.status = HttpStatusCode.BAD_REQUEST;
             response.message = String(error);
-            return res.json(response);
+            return res.status(response.status).json(response);
         }
         
 
@@ -60,7 +60,7 @@ export class AuthController {
         if (!name || !email || !password) {
             response.status = HttpStatusCode.BAD_REQUEST;
             response.message = "Envie datos validos";
-            return res.json(response);
+            return res.status(response.status).json(response);
         }
 
         try {
@@ -70,12 +70,12 @@ export class AuthController {
             response.payload = newUser,
             response.error = false
             console.log(`[AuthController] Usuario email ${newUser.email} registrado`);
-            return res.json(response)
+            return res.status(response.status).json(response)
 
         } catch (error) {
             response.status = HttpStatusCode.BAD_REQUEST;
             response.message = String(error);
-            return res.json(response);
+            return res.status(response.status).json(response);
         }
 
     }
@@ -92,10 +92,10 @@ export class AuthController {
         const requestJWT = req.headers["authorization"];
         const refreshToken = req.headers["x-refresh-token"] as string;
         const {id} = req.query;
-        if(!refreshToken || !requestJWT || !id){
+        if(!refreshToken || !requestJWT || !id || !Number.isInteger(Number(id))){
             response.status = HttpStatusCode.BAD_REQUEST;
             response.message = "Datos invalidos";
-            return res.json(response);
+            return res.status(response.status).json(response);
         }
 
         try{
@@ -105,11 +105,11 @@ export class AuthController {
             response.payload = "Deslogeado con éxito";
             response.error = false;
 
-            return res.json(response);
+            return res.status(response.status).json(response);
         }catch(error){
             response.status = HttpStatusCode.NOT_IMPLEMENTED;
             response.message = String(error);
-            return res.json(response);
+            return res.status(response.status).json(response);
         }
 
     }
@@ -127,23 +127,24 @@ export class AuthController {
 
         const {nombre, email} = req.body;
 
-        if(!nombre || !email){
+        if(!refreshToken || !nombre || !email){
             response.status = HttpStatusCode.BAD_REQUEST;
             response.message = 'Datos invalidos';
-            return res.send(response);
+            return res.status(response.status).json(response);
         }
 
         try{
             const {newJWT, newRefreshToken, refreshId,} = await AuthService.refresh_token(refreshToken, nombre, email);
             response.error= false;
+            response.status = HttpStatusCode.OK;
             response.message ='Actualizacion completa'
             response.jwt = newJWT,
             response.refresh_token = newRefreshToken;
-            return res.send(response);
+            return res.status(response.status).json(response);
         }catch(error){
             response.message = String(error);
             response.status = HttpStatusCode.CONFLICT;
-            return res.send(response);
+            return res.status(response.status).json(response);
         }
     }
 }

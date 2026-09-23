@@ -5,18 +5,40 @@
 import { eventBus } from "../../events/EventBus.js";
 
 import { EventPayload } from "../../shared/interfaces/Context.js";
-import { Exam } from "../../shared/interfaces/Exam.js";
+import { UserPassModulePayload } from "../../shared/interfaces/UserPassModulet.js";
 
 export enum CourseEvents {
-  EXAM_GRADED = "exam.graded",
+  EXAM_COMPLETE = "exam.complete",
   QUIZ_STARTED = "quiz.started",
+  USER_PASS_MODULE = 'user.pass.module'
 }
 
-export function publishExamGraded(payload: Exam) {
-  const eventPayload: EventPayload<Exam> ={
-    idEvent: CourseEvents.EXAM_GRADED,
-    producer: "exams",
-    payload
+export interface ExamCompleteStatus {
+  userId: number,
+  courseId: number,
+  hasErrors: boolean,
+  titleExam: string,
+  topicHasErrors: string[] | null,
+  totalErrors: number
+}
+
+export function publishModulePassed(data: UserPassModulePayload) {
+  const payload: EventPayload<UserPassModulePayload> ={
+    idEvent: CourseEvents.USER_PASS_MODULE,
+    producer: "course",
+    payload: data
   }
-  eventBus.publish(CourseEvents.EXAM_GRADED, eventPayload);
+  eventBus.publish(CourseEvents.USER_PASS_MODULE, payload);
+}
+
+
+export function publishExamComplete(data: ExamCompleteStatus){
+
+  const payload: EventPayload<ExamCompleteStatus> = {
+    idEvent: CourseEvents.EXAM_COMPLETE,
+    producer: "course",
+    payload: data
+  }
+
+  eventBus.publish(CourseEvents.EXAM_COMPLETE, payload);
 }

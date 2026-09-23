@@ -1,4 +1,6 @@
 import { prisma } from "../../config/database.js";
+import { AIQuiz } from "../ai/harness/validators/quizSchema.js";
+import { STRIKE_CONFIG } from "./rules/streak.rule.js";
 
 export class GameService {
     static async handleStrike(idUser: number, date: Date) {
@@ -34,14 +36,14 @@ export class GameService {
         result.dateLastStrike = strikeUser.fecha as Date;
 
         // Ya reclamó hoy.
-        if (diffDays === 0) {
+        if (diffDays === STRIKE_CONFIG.MIN_DAYS) {
             result.hasToday = true;
             result.strike = strikeUser.rachaValor as number;
             return result;
         }
 
         // Continúa la racha.
-        if (diffDays === 1) {
+        if (diffDays === STRIKE_CONFIG.MAX_DAYS) {
             const aumento = await this.aumentStrike(strikeUser.id, strikeUser.rachaValor as number, date);
 
             result.hasAument = true;
@@ -51,7 +53,7 @@ export class GameService {
         }
 
         // Fecha inválida (pasado).
-        if (diffDays < 0) {
+        if (diffDays < STRIKE_CONFIG.MIN_DAYS) {
             throw new Error("La fecha enviada es inválida.");
         }
 
@@ -74,6 +76,128 @@ export class GameService {
 
     }
 
+
+    static async weekQuiz(userId: number) {
+        const userContext = await prisma.usuarioContexto.findFirst({
+            where: {
+                usuarioId: userId
+            }
+        });
+
+        if (!userContext || (!userContext.resumenSemanaActual || userContext.resumenSemanaActual === "")) return null
+
+        const AIQuiz = JSON.parse(userContext.resumenSemanaActual) as AIQuiz;
+
+        await prisma.usuarioContexto.update({
+            where: {
+                id: userContext.id
+            },
+            data: {
+                resumenSemanaActual: ""
+            }
+        });
+
+        return AIQuiz;
+
+    }
+
+    static async reward(userId: number, rewardType: string, name: string, source: string) {
+        const reward = await prisma.recompensasCatalogo.findFirst({
+            where: {
+                tipo: rewardType,
+                nombre: name
+            }
+        });
+
+        const user = await prisma.usuarios.findFirst({
+            where: {
+                id: userId
+            }
+        });
+
+        if (!reward) throw new Error("Recompensa no registrada en catalogo");
+
+        if (!user) throw new Error("Usuario no detectado");
+
+        await prisma.$transaction(async (t) => {
+            await t.recompensaUsuario.create({
+                data: {
+                    fechaObtencion: new Date(),
+                    fuente: source,
+                    recompensaId: reward.id,
+                    usuarioId: userId
+                }
+            });
+
+            switch(reward.tipo){
+                case "STAR":
+                    await t.usuarios.update({
+                        where:{
+                            id: userId
+                        },
+                        data: {
+                            estrellasBalance: reward.valorObtenible + (user.estrellasBalance?? 0)
+                        }
+                    });
+                    break
+                case "ENERGY":
+                    await t.usuarios.update({
+                        where:{
+                            id: userId
+                        },
+                        data: {
+                            energiaBalance: reward.valorObtenible + (user.energiaBalance?? 0)
+                        }
+                    });
+                    break
+                case "SHIELD":
+                    await t.usuarios.update({
+                        where:{
+                            id: userId
+                        },
+                        data: {
+                            protectorRachaBalance: reward.valorObtenible + (user.protectorRachaBalance?? 0)
+                        }
+                    });
+                    break
+                case "AI_HINT":
+                    await t.usuarios.update({
+                        where:{
+                            id: userId
+                        },
+                        data: {
+                            aiPistaBalance: reward.valorObtenible + (user.aiPistaBalance?? 0)
+                        }
+                    });
+                    break
+                case "XP":
+                    await t.usuarios.update({
+                        where:{
+                            id: userId
+                        },
+                        data: {
+                            xpTotales: reward.valorObtenible + (user.xpTotales ?? 0)
+                        }
+                    });
+                    break
+                default:
+                    throw new Error("Recompensa no detectada"); 
+            }
+        })
+
+
+
+        return reward;
+    }
+
+    static async rewardCatalog() {
+        return prisma.recompensasCatalogo.findMany({
+            orderBy: {
+                id: "asc",
+            },
+        });
+    }
+
     // ---------- Funciones auxiliares ----------
 
     static getDiffDays(lastDate: Date, currentDate: Date): number {
@@ -90,7 +214,7 @@ export class GameService {
 
     static async useShield(strikeId: number, userId: number, currentStrike: number, date: Date): Promise<number> {
 
-        const nuevaRacha = currentStrike + 1;
+        const nuevaRacha = currentStrike + STRIKE_CONFIG.AUMENT_STRIKE;
 
         await prisma.$transaction(async (tx) => {
             await tx.usuarios.update({
@@ -99,7 +223,7 @@ export class GameService {
                 },
                 data: {
                     protectorRachaBalance: {
-                        decrement: 1,
+                        decrement: STRIKE_CONFIG.DECREMENT_STRIKE,
                     },
                 },
             });
@@ -119,7 +243,7 @@ export class GameService {
     }
 
     static async aumentStrike(strikeId: number, currentStrike: number, date: Date): Promise<number> {
-        const nuevaRacha = currentStrike + 1;
+        const nuevaRacha = currentStrike + STRIKE_CONFIG.AUMENT_STRIKE;
 
         await prisma.historialRacha.update({
             where: {
@@ -152,7 +276,7 @@ export class GameService {
                 data: {
                     usuarioId: userId,
                     fecha: date,
-                    rachaValor: 1,
+                    rachaValor: STRIKE_CONFIG.RESET_STRIKE,
                     activa: true,
                 },
             });

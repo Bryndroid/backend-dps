@@ -31,7 +31,7 @@ export class AuthService {
         }
         try {
 
-            const token = this.generateTokens({ nombre: user.nombre, email: user.email });
+            const token = this.generateTokens({ id: user.id, nombre: user.nombre, email: user.email });
             await this.store_token(token, cleanUser.id);
 
             return { token, cleanUser };
@@ -195,7 +195,7 @@ export class AuthService {
         try {
             //Generar nuevos tokens.
             const newJWT = jwt.sign(
-                { userName, userEmail },
+                { id: user.id, nombre: userName, email: userEmail },
                 jwtConfig.secret,
                 { expiresIn: jwtConfig.expiresIn }
             );

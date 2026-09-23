@@ -1,12 +1,9 @@
-GET http://127.0.0.1:3000/ejemplo HTTP/1.1
-Content-Type: application/json
 
-###
 POST http://127.0.0.1:3000/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "a@gmail.com",
+  "email": "SujetoPruebaCambiado2@gmail.com",
   "password": "123456"
 }
 
@@ -15,42 +12,100 @@ POST http://127.0.0.1:3000/registro HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "a@gmail.com",
-  "name": "lucas",
+  "email": "SujetoPrueba@gmail.com",
+  "name": "SujetoPrueba",
   "password": "123456"
 }
+
 ###
-POST http://127.0.0.1:3000/exam/quiz HTTP/1.1
-Content-Type: application/json
-
-//PARA PRUEBAS DE JWT
-
-### 
-POST http://127.0.0.1:3000/23232/exam HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJsdWNhcyIsImVtYWlsIjoiYUBnbWFpbC5jb20iLCJpYXQiOjE3ODk0ODQyNTAsImV4cCI6MTc4OTQ4NTE1MH0.ZkKDa5HvVVJU1uwL5YUDUTdEUBX1voCLGO8zWxmzyMk
-x-refresh-token: 1f06ff44c048aa395d863c54ce28e64ebf0f84ae739555cfe45004d7cd4d597f
-
-{
-  
-}
-
+GET http://127.0.0.1:3000/logout?id=6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJTdWpldG9QcnVlYmFDYW1iaWFkbzIiLCJlbWFpbCI6IlN1amV0b1BydWViYUNhbWJpYWRvMkBnbWFpbC5jb20iLCJpYXQiOjE3OTAwOTAwNDAsImV4cCI6MTc5MDA5MDk0MH0.2dRz1JTELfQa8OWFwiefyAcUibUpS_89Gz4Zwf2Zr7Y
+x-refresh-token: 126efec96079fe1f839a8491fbb258a97f3b5483ba726728401b7626314a916f
 //PRUEBA DE RENOVACION CON EL REFRESH TOKEN
 ### 
 POST http://127.0.0.1:3000/renueve_token HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJsdWNhcyIsImVtYWlsIjoiYUBnbWFpbC5jb20iLCJpYXQiOjE3ODk0ODQzMTQsImV4cCI6MTc4OTQ4NTIxNH0.v5AfGRE7Ap2-IOIgaWF0boO9l3rx0xmL1kxohNqt80U"
-x-refresh-token: 875c65d79d92b4bea0af79a3a75b3d2b6fbb81a3065b65d2536f168a211da3a8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJTdWpldG9QcnVlYmFDYW1iaWFkbzIiLCJlbWFpbCI6IlN1amV0b1BydWViYUNhbWJpYWRvMkBnbWFpbC5jb20iLCJpYXQiOjE3ODk5MjAxNDQsImV4cCI6MTc4OTkyMTA0NH0.DxZzoROsQ0bEKNrXnrRwiTLMvX9OGx2FBH-vtjA3qxg
+x-refresh-token: f1e85134cc60c296a470069d6ddccf6a3094e691c637356845af50583a5b0675
 Content-Type: application/json
 
 {
-  "nombre": "lucas",
-  "email": "a@gmail.com"
+  "nombre": "SujetoPruebaCambiado",
+  "email": "SujetoPruebaCambiado2@gmail.com"
 }
+
+//PRUEBA DE COURSES
 ###
-GET http://127.0.0.1:3000/strike?id=4&date=2026-09-29T06:00:00.000Z HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Imx1Y2FzIiwidXNlckVtYWlsIjoiYUBnbWFpbC5jb20iLCJpYXQiOjE3ODk0ODQ0NjMsImV4cCI6MTc4OTQ4NTM2M30.R0IW6IrP3tUBW2kOa26uaTfA3dq-FuVC4SK3Xn3ZmJo
+GET http://127.0.0.1:3000/course/2/register?id=6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJTdWpldG9QcnVlYmFDYW1iaWFkbzIiLCJlbWFpbCI6IlN1amV0b1BydWViYUNhbWJpYWRvMkBnbWFpbC5jb20iLCJpYXQiOjE3OTAwMDQyNTMsImV4cCI6MTc5MDAwNTE1M30.aIuUtv74bVgWs3zBE8Twm8VC7voM54sbzlyWzLN8HzQ
+###
+
+POST http://127.0.0.1:3000/course/1/pass_module HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwibm9tYnJlIjoiU3VqZXRvUHJ1ZWJhQ2FtYmlhZG8yIiwiZW1haWwiOiJTdWpldG9QcnVlYmFDYW1iaWFkbzJAZ21haWwuY29tIiwiaWF0IjoxNzkwMjAwNzgyLCJleHAiOjE3OTAyMDE2ODJ9.BannHvaoxmJcmo3-vQ7Eksb9_sX7UxPByxt2zb2IesM
+Content-Type: application/json
+
+{
+  "userId": 4,
+  "passedModule": "Tipado Generico",
+  "courseTitle": "Fundamentos de TypeScript",
+  "percentage": 0.75
+}
+
+//PRUEBA DE USER
+###
+GET http://127.0.0.1:3000/user?id=6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJTdWpldG9QcnVlYmFDYW1iaWFkbzIiLCJlbWFpbCI6IlN1amV0b1BydWViYUNhbWJpYWRvMkBnbWFpbC5jb20iLCJpYXQiOjE3OTAwOTAwNDAsImV4cCI6MTc5MDA5MDk0MH0.2dRz1JTELfQa8OWFwiefyAcUibUpS_89Gz4Zwf2Zr7Y
+###
+//CUANDO SE HACE EL APTCH TIENES QUE CAMBIARLO BORRAR LOS JWT Y VOLVERTE A LOGEAR!.
+PATCH  http://127.0.0.1:3000/user?id=6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJTdWpldG9QcnVlYmFDYW1iaWFkbyIsImVtYWlsIjoiU3VqZXRvUHJ1ZWJhQ2FtYmlhZG9AZ21haWwuY29tIiwiaWF0IjoxNzg5NzQ1ODk1LCJleHAiOjE3ODk3NDY3OTV9.PFZRZeO2fzww2--QgXX5x1NlgnayVQ002yHTdvp939g
+Content-Type: application/json
+
+{
+  "name": "SujetoPruebaCambiado2",
+  "email": "SujetoPruebaCambiado2@gmail.com",
+  "password": "123456"
+}
 
 ###
-GET http://127.0.0.1:3000/logout?id=3 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJsdWNhcyIsImVtYWlsIjoiYUBnbWFpbC5jb20iLCJpYXQiOjE3ODkzOTg0MzQsImV4cCI6MTc4OTM5OTMzNH0.spn3M1mYuRdgcIO4sSWe-h8mLA2vv8CONxxk5VOpPgs
-x-refresh-token: 1fa2af4f861cbb0c9907dc24ff1d573fe2b0826bd77ec185b0ded4edf8490eb3
+
+DELETE http://127.0.0.1:3000/user?id=12 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJTdWpldG9QcnVlYmEiLCJlbWFpbCI6IlN1amV0b1BydWViYUBnbWFpbC5jb20iLCJpYXQiOjE3ODk3NDU0OTYsImV4cCI6MTc4OTc0NjM5Nn0.PMGF2t8lz1L-TWowzZ_bDhDRn8R0U6flSBxXjpgISn8
+Content-Type: application/json
+
+
+###
+
+//GAME ROUTES
+
+GET http://127.0.0.1:3000/game/week_quiz?id=6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwibm9tYnJlIjoiU3VqZXRvUHJ1ZWJhQ2FtYmlhZG8yIiwiZW1haWwiOiJTdWpldG9QcnVlYmFDYW1iaWFkbzJAZ21haWwuY29tIiwiaWF0IjoxNzkwMjAwNzgyLCJleHAiOjE3OTAyMDE2ODJ9.BannHvaoxmJcmo3-vQ7Eksb9_sX7UxPByxt2zb2IesM
+Content-Type: application/json
+
+###
+//PRUEBA PARA RACHA
+GET http://127.0.0.1:3000/game/strike?id=6&date=2026-09-24T06:00:00.000Z HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJTdWpldG9QcnVlYmFDYW1iaWFkbzIiLCJlbWFpbCI6IlN1amV0b1BydWViYUNhbWJpYWRvMkBnbWFpbC5jb20iLCJpYXQiOjE3ODk5OTcxNzEsImV4cCI6MTc4OTk5ODA3MX0.SIwTEvsbTAyz1k_l914Q3XNChSrUMRWLygLpnUgBluk
+
+###
+POST http://127.0.0.1:3000/game/reward?id=6&type=SHIELD HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJTdWpldG9QcnVlYmFDYW1iaWFkbzIiLCJlbWFpbCI6IlN1amV0b1BydWViYUNhbWJpYWRvMkBnbWFpbC5jb20iLCJpYXQiOjE3OTAwOTAwNDAsImV4cCI6MTc5MDA5MDk0MH0.2dRz1JTELfQa8OWFwiefyAcUibUpS_89Gz4Zwf2Zr7Y
+Content-Type: application/json
+
+{
+  "source": "mission",
+  "nameReward": "SHIELD_STRIKE"
+}
+
+###
+POST http://127.0.0.1:3000/course/1/exam_complete?id=6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJTdWpldG9QcnVlYmFDYW1iaWFkbzIiLCJlbWFpbCI6IlN1amV0b1BydWViYUNhbWJpYWRvMkBnbWFpbC5jb20iLCJpYXQiOjE3OTAwMjIyNzgsImV4cCI6MTc5MDAyMzE3OH0.t7CajvqiyuOMO_Ay23SZvc9tAU3Bc24hEADyxHleG-M
+Content-Type: application/json
+
+{
+  "totalErrors": 2,
+  "topicsHasError": "['Identifica las variables incorrectas', 'Como se declara una variable en TypeScript?']",
+  "hasErrors": true,
+  "titleExam": "Pon a prueba de tus conocimientos basicos de TypeScript",
+  "percentage": 0.50
+}
+

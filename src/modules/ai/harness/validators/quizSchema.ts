@@ -5,7 +5,7 @@ export const AIQuizSchema = z.object({
     contentType: z.enum(['quizz', 'code']).describe('Identificador si es teoría o practica de programación'),
     weekConcept: z.string().describe("El concepto débil que se planea mejorar"),
     message: z.string().max(50).describe("Descripción de lo que será el mini quizz / code"),
-    rewardType: z.enum(['XP']).describe("Unicamente recompensa con XP, que por default es 100"),
+    rewardType: z.enum(['XP', 'STAR']).describe("Unicamente recompensa con XP y STAR, que por default es 100 para XP y las STAR se controlan en frontend."),
 
     topics: z.array(z.object({
         id: z.number().max(4),
@@ -25,8 +25,13 @@ export const AIQuizSchema = z.object({
 });
 
 
-export const AIAdvice = z.object({
+export const AIAdviceSchema = z.object({
     contentTpe: z.enum(['advice']),
     mesasage: z.string().max(50).describe("Mensaje motivacional corto para mejorar la conecntración."),
 
 })
+
+export type AIQuiz= z.infer<typeof AIQuizSchema>;
+
+
+export type AIAdvice = z.infer<typeof AIAdviceSchema>;
