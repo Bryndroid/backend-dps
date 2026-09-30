@@ -22,7 +22,7 @@ export class CourseController {
         }
         const { percentage, userId, passedModule, courseTitle } = req.body;
         const courseId = req.params.course as string;
-
+        
         if (!courseId || !Number.isInteger(Number(courseId)) || !userId || !Number.isInteger(Number(userId)) || !Number.isFinite(Number(percentage)) || percentage < 0 || percentage > 100 || passedModule === undefined || !courseTitle) {
             response.message = "Datos incompletos";
             response.status = HttpStatusCode.BAD_REQUEST;
@@ -30,7 +30,9 @@ export class CourseController {
         }
 
         try {
-            const AiQuiz = await CourseService.handlerModule(parseInt(courseId), userId, percentage);
+
+            console.log(percentage);
+            const AiQuiz = await CourseService.handlerModule(parseInt(courseId), userId, (percentage / 100));
 
             response.status = HttpStatusCode.ACCEPTED;
             response.message = "Avance registrado";
@@ -43,6 +45,7 @@ export class CourseController {
                 publishModulePassed({ userId: userId, courseTitle: courseTitle, passedModule: passedModule });
             }
         } catch (error) {
+            console.log(error);
             response.message = String(error);
             response.status = HttpStatusCode.BAD_REQUEST;
             return res.status(response.status).json(response);
@@ -97,7 +100,7 @@ export class CourseController {
             error: true,
         }
 
-        const {percentage, titleExam, totalErrors, topicsHasError, hasErrors} = req.body;
+        const { percentage, titleExam, totalErrors, topicsHasError, hasErrors } = req.body;
 
         const idCourse = req.params.course as string;
         const userId = req.query.id as string;
@@ -108,7 +111,7 @@ export class CourseController {
             return res.status(response.status).json(response);
         }
 
-        try{
+        try {
             await CourseService.examComplete(parseInt(idCourse), parseInt(userId), parseInt(percentage));
 
             response.error = false;
@@ -117,16 +120,16 @@ export class CourseController {
             res.status(response.status).json(response);
 
 
-        }catch(error){
+        } catch (error) {
             response.message = String(error);
             response.status = HttpStatusCode.BAD_GATEWAY;
             return res.status(response.status).json(response);
         }
-        publishExamComplete({userId:parseInt(userId),courseId: parseInt(idCourse), hasErrors: hasErrors, titleExam: titleExam, topicHasErrors: topicsHasError, totalErrors: totalErrors});
+        publishExamComplete({ userId: parseInt(userId), courseId: parseInt(idCourse), hasErrors: hasErrors, titleExam: titleExam, topicHasErrors: topicsHasError, totalErrors: totalErrors });
 
     }
 
-    static async finishCourse(req: Request, res: Response){
+    static async finishCourse(req: Request, res: Response) {
         const response: ApiResponse<null> = {
             status: HttpStatusCode.INTERNAL_SERVER_ERROR,
             message: "",
@@ -137,23 +140,23 @@ export class CourseController {
         const idCourse = req.params.course as string;
         const userId = req.query.id as string;
 
-        if(!userId || !Number.isInteger(Number(userId)) || !idCourse || !Number.isInteger(Number(idCourse))){
+        if (!userId || !Number.isInteger(Number(userId)) || !idCourse || !Number.isInteger(Number(idCourse))) {
             response.message = "Datos Incompletos";
             response.status = HttpStatusCode.BAD_REQUEST;
             return res.status(response.status).json(response);
         }
 
-        try{
+        try {
             await CourseService.finishCourse(parseInt(userId), parseInt(idCourse));
 
             response.error = false;
             response.message = "Estado actualizado: Curso terminado con éxito";
             response.status = HttpStatusCode.ACCEPTED;
             return res.status(response.status).json(response);
-        }catch(error){
+        } catch (error) {
             response.message = String(error);
             response.status = HttpStatusCode.BAD_GATEWAY;
-            return res.status(response.status).json(response);   
+            return res.status(response.status).json(response);
         }
     }
 }

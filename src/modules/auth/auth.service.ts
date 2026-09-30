@@ -76,7 +76,7 @@ export class AuthService {
                     create: {
                         //TODO: Esto por verficiar con el frontend.
                         conceptosDebiles: `["principiante", "UsuarioNuevo"]`,
-                        porcentajeRefuerzo: 0.15,
+                        porcentajeRefuerzo: 0.60,
                         ultimoQuizGenerado:"",
                         resumenSemanaActual: "",
                         ultimoConsejoTopic: ""

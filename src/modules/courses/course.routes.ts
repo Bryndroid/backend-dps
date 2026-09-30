@@ -23,7 +23,7 @@ courseRoutes.get("/:course/register", authMiddleware, CourseController.register)
 //Aqui me tendrás que mandar el titulo del module, su user id, y el course id que va dentro de la request. Me tienes que mandar el porcentaje de avance
 courseRoutes.post("/:course/pass_module", strictLimiter, authMiddleware, CourseController.handlerModule);
 
-//Aqui me mandaras todo el payload del examen completo (sus respuestas buenas y malas) y yo lo voy a verificar, aumentar el progreso y te voy a retornar las recompensas, ya sea en modo star o de cualquier otro modo. Puede que ponga un evento de exam_complete para que la IA pueda generar un historial de errores y actualizar el contexto.... Me tienes que mandar el porcentaje de avance. También aqui voy a a actualizar el porcentaje
+//Aqui me mandaras todo el payload del examen completo (sus respuesta malas) y yo lo voy a verificar, aumentar el progreso y te voy a retornar las recompensas, ya sea en modo star o de cualquier otro modo. Puede que ponga un evento de exam_complete para que la IA pueda generar un historial de errores y actualizar el contexto.... Me tienes que mandar el porcentaje de avance. También aqui voy a a actualizar el porcentaje
 courseRoutes.post("/:course/exam_complete", strictLimiter,authMiddleware, CourseController.examComplete);
 
 //Aqui me mandaras el porcentaje de avance al 100,

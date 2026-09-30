@@ -28,7 +28,7 @@ export class AiHarness {
         } else if (options.model) {
             this.models = [options.model];
         } else {
-            this.models = ["gemini-3.5-flash"];
+            this.models = ["gemini-3.6-flash"];
         }
         
         this.maxRetries = options.maxRetries ?? 1;

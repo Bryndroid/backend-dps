@@ -15,7 +15,7 @@ export const authMiddleware: RequestHandler =  async (req, res, next) => {
 
     const jwt_token = req.headers.authorization?.split(" ")[1];
     if (!jwt_token) {
-        response.status = HttpStatusCode.BAD_REQUEST;
+        response.status = HttpStatusCode.UNAUTHORIZED;
         response.message = "Credenciales Incompletas"
         return res.status(response.status).json(response)
     }
