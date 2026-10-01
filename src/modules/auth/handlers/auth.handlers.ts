@@ -3,8 +3,7 @@ import { AuthTokens } from "../../../shared/interfaces/AuthTokens.js";
 import { EventPayload } from "../../../shared/interfaces/Context.js";
 import bcrypt from "bcrypt";
 
-// DEPRECATED
-//Handler para guardar Refresh Token
+// Obsoletos: el manejo de tokens ahora se realiza en AuthService.
 export async function store_token(data: EventPayload<{ auth: AuthTokens, userId: number }>) {
     try {
         const refreshHash = await bcrypt.hash(data.payload.auth.refresh_token, 10);
@@ -22,8 +21,6 @@ export async function store_token(data: EventPayload<{ auth: AuthTokens, userId:
     }
 
 }
-
-//Handler para actualizar refresh token
 
 export async function update_token(data: EventPayload<{ refreshToken: string, oldToken: string, refreshId: number }>) {
     try {

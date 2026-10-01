@@ -1,7 +1,3 @@
-// ESTE ES UN MODULO EN DESARROLLO Y CASI TODO ESTA SUJETO A CAMBIOS DRASTICOS.
-// Practicamente solamente lo ocupe para realizar pruebas. MUCHAS PROBABILIDADES DE ELIMINAR ESTE MODULO POR COMPLETO. YA QUE SE MANEJA EN FIREBASE TODO ESTO. PERO PUEDE QUE NO XD.
-
-
 import { prisma } from "../../config/database.js";
 import { EventPayload } from "../../shared/interfaces/Context.js";
 import { AIQuiz } from "../ai/harness/validators/quizSchema.js";
@@ -9,6 +5,7 @@ import { publishModulePassed } from "./course.events.js";
 
 export class CourseService {
 
+    // Inscribe al usuario en un curso activo.
     static async register(idCourse: number, userId: number){
         try{
             const user = await this.isUser(userId);
@@ -47,7 +44,7 @@ export class CourseService {
         }
     }
 
-    //Falta parsear que exista ese curso en el backend
+    // Actualiza el avance y consume el quiz pendiente del usuario.
     static async handlerModule(courseId: number, userId: number, percentage: number){
     
         await prisma.usuarioCurso.updateMany({
@@ -86,6 +83,7 @@ export class CourseService {
 
     }
 
+    // Guarda el progreso obtenido en un examen.
     static async examComplete(courseId: number, userId: number,percentage: number){
         
         const course = await prisma.usuarioCurso.findFirst({
@@ -122,6 +120,7 @@ export class CourseService {
         return user;
     }
 
+    // Completa el curso para el usuario.
     static async finishCourse(userId: number, courseId: number){
         await prisma.usuarioCurso.updateMany({
             where:{

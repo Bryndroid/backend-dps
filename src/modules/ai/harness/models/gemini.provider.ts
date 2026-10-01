@@ -1,8 +1,5 @@
-// ESTE ES UN MODULO EN DESARROLLO Y CASI TODO ESTA SUJETO A CAMBIOS DRASTICOS.
-
 import { FunctionDeclaration, GoogleGenAI } from "@google/genai";
 import type { AiProvider, AiResponse, FunctionTool } from "../../ai.types.js";
-//Esto si me gusta mucho
 export class GeminiProvider implements AiProvider {
     private client: GoogleGenAI | undefined;
     private readonly apiKey?: string;

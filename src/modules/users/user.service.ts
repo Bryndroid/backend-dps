@@ -1,10 +1,9 @@
 import { HistorialRacha } from "@prisma/client";
 import { prisma } from "../../config/database.js";
 import bcrypt from "bcrypt";
-//Aqui solo será para hacer CRUD con la informacion del usuario.
-//TODO: AQUI NO DEBE DE SER FIRST OR THROW YA QUE ESE ERROR TIRA MUCHA INFO XD
 export class UserService {
 
+    // Busca la cuenta y omite los datos privados.
     static async findUser(userId: number) {
         const user = await prisma.usuarios.findUnique({
             where: {
@@ -24,6 +23,7 @@ export class UserService {
     }
 
 
+    // Verifica la contraseña y actualiza los datos básicos.
     static async updateUser(userId: number, name: string, password: string, email: string) {
         const user = await prisma.usuarios.findUnique({
             where: {
@@ -62,6 +62,7 @@ export class UserService {
 
     }
 
+    // Elimina la cuenta y sus registros dependientes en una transacción.
     static async delete(userId: number) {
 
         const user = await prisma.usuarios.findUnique({

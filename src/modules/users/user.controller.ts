@@ -6,7 +6,7 @@ import { HttpStatusCode } from "../../shared/constants/HttpStatus.js";
 
 export class UserController {
 
-    //Obtener info
+    // Devuelve los datos públicos de la cuenta.
     static async index(req: Request, res: Response) {
 
         const response: ApiResponse<Omit<Usuarios, "passwordHash" | "fechaRegistro"> | null> = {
@@ -39,7 +39,7 @@ export class UserController {
     }
 
 
-    //Update de datos de la cuenta
+    // Actualiza nombre y correo tras verificar la contraseña.
     static async update(req: Request, res: Response) {
         const response: ApiResponse<Omit<Usuarios, "passwordHash" | "fechaRegistro"> | null> = {
             status: HttpStatusCode.INTERNAL_SERVER_ERROR,
@@ -47,7 +47,6 @@ export class UserController {
             payload: null,
             error: true
         }
-        //Que me mande todo, para no parsear que me trajo.
         const userId = req.query.id as string;
         const { name, email, password } = req.body;
 
@@ -72,7 +71,7 @@ export class UserController {
         }
 
     }
-    //Eliminar cuenta
+    // Elimina la cuenta y sus datos relacionados.
     static async delete(req: Request, res: Response) {
         const response: ApiResponse<null> = {
             status: HttpStatusCode.INTERNAL_SERVER_ERROR,

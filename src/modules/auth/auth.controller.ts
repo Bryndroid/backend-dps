@@ -9,8 +9,8 @@ import { AuthTokens } from "../../shared/interfaces/AuthTokens.js";
 
 export class AuthController {
 
+    // Autentica al usuario y devuelve sus tokens.
     static async login(req: Request, res: Response) {
-        //Generando respuesta defualt
         const response: ApiResponse<Omit<Usuarios, "passwordHash" | "fechaRegistro"> | null> = {
             status: HttpStatusCode.SERVICE_UNAVAILABLE,
             message: "eRROr",
@@ -18,7 +18,6 @@ export class AuthController {
             error: true,
         }
         const { email, password } = req.body;
-        //Validación de datos nullos.
         if (!email || !password) {
             response.status = HttpStatusCode.BAD_REQUEST;
             response.message = "Envie datos validos";
@@ -47,8 +46,8 @@ export class AuthController {
         
 
     }
+    // Registra una cuenta y devuelve sus datos públicos.
     static async register(req: Request, res: Response) {
-        //Generando respuesta defualt
         const response: ApiResponse<{ nombre: string, email: string } | null> = {
             status: HttpStatusCode.SERVICE_UNAVAILABLE,
             message: "eRROr",
@@ -80,6 +79,7 @@ export class AuthController {
 
     }
 
+    // Cierra la sesión invalidando el refresh token.
     static async logout(req: Request, res: Response) {
 
         const response: ApiResponse<string | null> = {
@@ -114,6 +114,7 @@ export class AuthController {
 
     }
 
+    // Renueva el par de tokens de una sesión válida.
     static async renueve_token(req: Request, res: Response) {
 
         const response: ApiResponse<null> = {

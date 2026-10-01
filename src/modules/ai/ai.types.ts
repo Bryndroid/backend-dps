@@ -1,4 +1,3 @@
-// ESTE ES UN MODULO EN DESARROLLO Y CASI TODO ESTA SUJETO A CAMBIOS DRASTICOS.
 
 import { FunctionDeclaration } from "@google/genai";
 import { z } from "zod";
@@ -30,7 +29,7 @@ export interface AiProvider {
 
 export interface AiHarnessOptions {
     model?: string;         // Mantenido por retrocompatibilidad
-    models?: string[];      // NUEVO: Array de modelos de respaldo
+    models?: string[];
     maxInputLength?: number;
     maxRetries?: number;
     timeoutMs?: number;

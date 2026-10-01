@@ -1,4 +1,3 @@
-// Reglas para conservar las rachas, repararlas etc. Como lo implemento?
 
 export enum STRIKE_CONFIG {
     MAX_DAYS = 2,

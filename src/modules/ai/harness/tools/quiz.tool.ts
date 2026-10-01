@@ -1,7 +1,7 @@
 import { FunctionDeclaration, Type } from "@google/genai";
 import { AIQuiz } from "../validators/quizSchema.js";
 import { FunctionTool } from "../../ai.types.js";
-// DEPRECATED JAJAJAJAJ
+// Obsoleta: el handler no persiste el quiz en la base de datos.
 export const storeQuizToolDeclaration: FunctionTool = {
   type: "function",
   name: "store_context_user",
@@ -95,25 +95,8 @@ export const storeQuizToolDeclaration: FunctionTool = {
   },
 };
 
-// Handler que ejecuta la acción real
 export const quizzToolHandlers: Record<string, (args: any) => Promise<any> > = {
-  //Esto se debe de parsear desde este lado
   store_context_user: async (args: {userId: number, quiz: any}) => {
-    // 2. Persistir en la BD a través de Prisma
-    /*
-    const saved = await prisma.usuarioQuizz.create({
-      data: {
-        usuarioId: args.userId,
-        conceptoDebil: validatedQuiz.weekConcept,
-        tipoContenido: validatedQuiz.contentType,
-        mensaje: validatedQuiz.message,
-        payloadJson: JSON.stringify(validatedQuiz),
-      },
-    });
-
-    return { success: true, quizId: saved.id };
-    */
-
     console.log(
       `[Tool store_context_user] Quizz guardado con éxito para el estudiante ID ${args.userId}`
     );

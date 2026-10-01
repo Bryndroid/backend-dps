@@ -9,8 +9,7 @@ import { PromptService } from "./harness/prompts/promptBuilder.js";
 import { WeekQuizzPayload } from "../gamification/gamification.events.js";
 import { ExamCompleteStatus } from "../courses/course.events.js";
 
-//Generar el examen sorpresa.
-//Aqui ya viene con los campos "". TODO: Verificar si es buena idea traerlo asi...
+// Genera y guarda un quiz sorpresa cuando el perfil lo requiere.
 export async function HarnessPassModuleHandler(data: EventPayload<UserPassModulePayload>) {
     try {
 
@@ -84,8 +83,7 @@ export async function HarnessPassModuleHandler(data: EventPayload<UserPassModule
     }
 }
 
-//Generar el quizz semanal
-
+// Genera y guarda el quiz semanal personalizado.
 export async function HarnessWeekQuiz(data: EventPayload<WeekQuizzPayload>) {
     try {
         const { userId } = data.payload;

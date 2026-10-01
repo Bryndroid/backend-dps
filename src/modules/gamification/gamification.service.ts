@@ -3,6 +3,7 @@ import { AIQuiz } from "../ai/harness/validators/quizSchema.js";
 import { STRIKE_CONFIG } from "./rules/streak.rule.js";
 
 export class GameService {
+    // Actualiza la racha diaria y aplica un escudo cuando corresponde.
     static async handleStrike(idUser: number, date: Date) {
         const result = {
             hasAument: false,
@@ -77,6 +78,7 @@ export class GameService {
     }
 
 
+    // Devuelve y limpia el quiz semanal pendiente.
     static async weekQuiz(userId: number) {
         const userContext = await prisma.usuarioContexto.findFirst({
             where: {
@@ -101,6 +103,7 @@ export class GameService {
 
     }
 
+    // Registra la recompensa y actualiza el balance correspondiente.
     static async reward(userId: number, rewardType: string, name: string, source: string) {
         const reward = await prisma.recompensasCatalogo.findFirst({
             where: {
@@ -190,6 +193,7 @@ export class GameService {
         return reward;
     }
 
+    // Devuelve el catálogo ordenado de recompensas.
     static async rewardCatalog() {
         return prisma.recompensasCatalogo.findMany({
             orderBy: {

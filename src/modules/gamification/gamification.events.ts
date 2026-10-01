@@ -1,5 +1,3 @@
-// Aun me falta definir que tipos de eventos y que tipo de logica tengo que implementar para manejar eventos
-
 import { eventBus } from "../../events/EventBus.js";
 import { EventPayload } from "../../shared/interfaces/Context.js";
 
@@ -9,7 +7,6 @@ export enum GameEvents {
 
 export interface WeekQuizzPayload{
     userId: number
-    //TODO: Ver si puedo mandarle mas data antes...
 } 
 
 

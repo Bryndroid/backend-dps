@@ -6,13 +6,12 @@ import { CourseService } from "./course.service.js";
 import { HttpStatusCode } from "../../shared/constants/HttpStatus.js";
 import { AIQuiz } from "../ai/harness/validators/quizSchema.js";
 import { publishExamComplete, publishModulePassed } from "./course.events.js";
-//El controlador debe de ser stateless
 export class CourseController {
 
 
 
 
-    //TODO: Por ver, ya que debo de ver que tipo de contexto me puede funcionar.
+    // Registra el avance del módulo y publica su finalización.
     static async handlerModule(req: Request, res: Response) {
         const response: ApiResponse<AIQuiz | null> = {
             status: HttpStatusCode.INTERNAL_SERVER_ERROR,
@@ -53,6 +52,7 @@ export class CourseController {
 
     }
 
+    // Inscribe al usuario en el curso.
     static async register(req: Request, res: Response) {
         const response: ApiResponse<string | null> = {
             status: HttpStatusCode.INTERNAL_SERVER_ERROR,
@@ -92,6 +92,7 @@ export class CourseController {
         }
     }
 
+    // Guarda el resultado del examen y notifica sus errores.
     static async examComplete(req: Request, res: Response) {
         const response: ApiResponse<null> = {
             status: HttpStatusCode.INTERNAL_SERVER_ERROR,
@@ -129,6 +130,7 @@ export class CourseController {
 
     }
 
+    // Marca el curso como finalizado.
     static async finishCourse(req: Request, res: Response) {
         const response: ApiResponse<null> = {
             status: HttpStatusCode.INTERNAL_SERVER_ERROR,

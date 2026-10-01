@@ -1,4 +1,3 @@
-//Configura Express
 import express, { Request, Response } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -18,9 +17,9 @@ app.use(globalLimiter);
 
 
 app.use(configAPI);
-app.use(authRoutes)//ya
-app.use("/user",userRoutes);//ya
-app.use("/course",courseRoutes);//ya
+app.use(authRoutes)
+app.use("/user",userRoutes);
+app.use("/course",courseRoutes);
 app.use("/game",gameRoutes);
 
 

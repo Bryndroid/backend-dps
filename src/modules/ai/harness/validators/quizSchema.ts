@@ -1,5 +1,5 @@
 import { z } from 'zod';
-//Son importantes los .describe dentro de Zod para darle contexto a la IA adjuntada como metadata del objeto
+// Los .describe aportan contexto al esquema enviado a la IA.
 
 export const AIQuizSchema = z.object({
     contentType: z.enum(['quizz', 'code']).describe('Identificador si es teoría o practica de programación'),
@@ -15,7 +15,6 @@ export const AIQuizSchema = z.object({
         options: z.array(z.object({
             id: z.enum(["A", "B", "C", "D"]),
             description: z.string().max(40)
-            //Aqui podría meter más descripción
         })).describe("Las opciones de respuesta que puede elegir el estudiante"),
         
         correctAnswer: z.enum(["A", "B", "C", "D"]),

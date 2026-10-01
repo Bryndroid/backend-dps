@@ -11,7 +11,7 @@ import { HttpStatusCode } from "../../shared/constants/HttpStatus.js";
 
 
 export class AuthService {
-    //Login logic
+    // Verifica credenciales y crea la sesión.
     static async login(email: string, password: string) {
 
         const user = await prisma.usuarios.findUnique({
@@ -40,7 +40,7 @@ export class AuthService {
             throw new Error("Error critico al procesar tokens");
         }
     }
-    //Register Logic
+    // Crea la cuenta con sus valores iniciales.
     static async register(name: string, email: string, password: string) {
 
         const user = await this.ownerEmail(email);
@@ -52,7 +52,6 @@ export class AuthService {
         if (!this.isValidEmail(email)) {
             throw new Error("Correo invalido.");
         }
-        //TODO: Luego ver si puedo manejar algo de esto por eventos, por lo menos del usuarioContexto.
         const newUser = await prisma.usuarios.create({
             data: {
                 nombre: name,
@@ -74,7 +73,6 @@ export class AuthService {
                 },
                 usuarioContexto: {
                     create: {
-                        //TODO: Esto por verficiar con el frontend.
                         conceptosDebiles: `["principiante", "UsuarioNuevo"]`,
                         porcentajeRefuerzo: 0.60,
                         ultimoQuizGenerado:"",
@@ -91,7 +89,7 @@ export class AuthService {
         
         return newUser;
     }
-    //Logout logic - Borro el campo asociado al refresh token que me mande el usuario.
+    // Valida y elimina el refresh token de la sesión.
     static async logout(refresh_token: string, userId: number) {
 
         const refreshTokens= await prisma.refreshToken.findMany(
@@ -145,7 +143,7 @@ export class AuthService {
         }
 
     }
-    //Refresh logic
+    // Valida el refresh token y genera tokens nuevos.
     static async refresh_token(refreshToken: string, userName: string, userEmail: string) {
         const user = await this.ownerEmail(userEmail);
 
@@ -213,7 +211,7 @@ export class AuthService {
 
     }
 
-    // FUNCIONES DE RESPALDO
+    // Genera el par inicial de tokens.
     static generateTokens(data: JWTpayload): AuthTokens {
 
         const jwt_token = jwt.sign(data, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });

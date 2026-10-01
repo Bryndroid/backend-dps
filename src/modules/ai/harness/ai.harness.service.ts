@@ -1,4 +1,3 @@
-// ESTE ES UN MODULO EN DESARROLLO Y CASI TODO ESTA SUJETO A CAMBIOS DRASTICOS.
 import type {
     AiHarnessOptions,
     AiProvider,
@@ -12,7 +11,6 @@ interface ConversationState {
 }
 
 export class AiHarness {
-    // AHORA ACEPTAMOS UN ARRAY DE MODELOS
     private readonly models: string[];
     private readonly maxRetries: number;
     private readonly timeoutMs: number;
@@ -21,20 +19,19 @@ export class AiHarness {
         private readonly provider: AiProvider,
         options: AiHarnessOptions,
     ) {
-        // CORRECCIÓN: Aceptamos un modelo único (para retrocompatibilidad) o un array.
-        // Si no se pasa nada, el default sigue siendo gemini-3.5-flash
         if (options.models && options.models.length > 0) {
             this.models = options.models;
         } else if (options.model) {
             this.models = [options.model];
         } else {
-            this.models = ["gemini-3.6-flash"];
+            this.models = ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-3.5"];
         }
         
-        this.maxRetries = options.maxRetries ?? 1;
+        this.maxRetries = options.maxRetries ?? 3;
         this.timeoutMs = options.timeoutMs ?? 120000; 
     }
 
+    // Ejecuta la solicitud con timeout, reintentos y rotación de modelos.
     async run<T>(request: HarnessRequest<T>): Promise<HarnessResponse<T>> {
         let attempts = 0;
         let currentModelIndex = 0; 
@@ -43,13 +40,12 @@ export class AiHarness {
         console.log(`Prompt:  ${request.prompt}`);
         console.log(`Comando: ${request.command}`); 
 
-        let currentInput: string | object[] = request.prompt; // CORRECCIÓN: Tipado más estricto que 'any'
+        let currentInput: string | object[] = request.prompt;
         let currentPreviousId: string | undefined = request.conversationId;
 
         while (attempts < this.maxRetries) {
             attempts++;
             
-            // Lógica de Fallback de Modelos
             if (currentModelIndex >= this.models.length) {
                  // Si se nos acaban los modelos de respaldo, volvemos al principal (opcional)
                  // o podríamos lanzar un error de "Todos los modelos fallaron".
@@ -61,8 +57,6 @@ export class AiHarness {
             console.log(`[AiHarness] Iniciando ejecución intento ${attempts} usando el modelo: ${activeModel}`);
 
             try {
-                // 1. Invocación al modelo asignado
-                // CORRECCIÓN: AHORA SÍ ESTAMOS USANDO withTimeout
                 const result = await this.withTimeout(this.provider.createInteraction({
                     model: activeModel, // Usamos el modelo activo del array
                     input: currentInput,
@@ -74,7 +68,6 @@ export class AiHarness {
 
                 currentPreviousId = result.id;
 
-                // 2. Validación (HTTP fue 200 OK, pero revisamos la estructura de los datos)
                 const parsedData = this.validateOutput<T>(result.text, request.responseSchema);
 
                 return {
@@ -116,8 +109,6 @@ export class AiHarness {
 
                 console.log("[AiHarness] Error de validación. Pidiendo corrección al mismo modelo...");
                 currentInput = `El resultado anterior falló la validación. Arregla este Error y devuelve un formato válido. Detalle del error: ${error.message || error}`;
-                // Nota: Aquí NO rotamos el modelo (currentModelIndex++), porque es un error de formato,
-                // no de saturación de la API. Le damos al mismo modelo la oportunidad de autocorregirse.
             }
         }
 
@@ -147,7 +138,6 @@ export class AiHarness {
         const status = (error as Error & { status?: number }).status;
         console.log(`Status del error HTTP: ${status}`);
         
-        // CORRECCIÓN: Se agrega 429 (Too Many Requests) vital para el tier gratuito
         return status === 429 || status === 408 || status === 500 || status === 502 || status === 503 || status === 504;
     }
 

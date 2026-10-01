@@ -27,6 +27,7 @@ export class PromptService {
         this.command = command;
     }
 
+    // Construye la solicitud según el comando de IA.
     generatePrompt(params: CommandContext): HarnessRequest {
 
         switch (this.command) {
@@ -50,7 +51,7 @@ export class PromptService {
                     command: this.command,
                     systemInstruction: this.structure_header,
                     prompt: this.hintAI(params),
-                    responseSchema: AIQuizSchema // Por cambiar xd.
+                    responseSchema: AIQuizSchema
                 }
 
             case "USER_ERRORS":
@@ -79,7 +80,6 @@ export class PromptService {
         Con esta información crea un quizz de máximo 2 preguntas con enfoque en el tematica del curso, si existe, el lenguaje y con los demás parametros que estan en este prompt. Sigue obligatoriamente el schema que se te otorga para crear el quizz. El quizz debe de ser retador en cuanto al modulo que se esta cursando y el curso.
         `.trim();
     }
-    //TODO: Falta balancear la XPs
     private weekQuizAI(params: CommandContext) {
         return `
         
